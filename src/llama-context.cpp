@@ -11,6 +11,7 @@
 #include <cinttypes>
 #include <cstring>
 #include <limits>
+#include <iostream>
 #include <stdexcept>
 
 //

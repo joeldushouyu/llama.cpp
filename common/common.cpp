@@ -1003,6 +1003,7 @@ static inline void common_init_sampler_from_model(
 }
 
 struct common_init_result common_init_from_params(common_params & params) {
+    std::cout << "trigger common_init_from_params" << std::endl;
     common_init_result iparams;
     auto mparams = common_model_params_to_llama(params);
 
@@ -1020,6 +1021,7 @@ struct common_init_result common_init_from_params(common_params & params) {
     auto cparams = common_context_params_to_llama(params);
 
     llama_context * lctx = llama_init_from_model(model, cparams);
+    std::cout << "DEBUG: Finished llama_init_from_model" << std::endl;
     if (lctx == NULL) {
         LOG_ERR("%s: failed to create context with model '%s', try reducing --n-gpu-layers if you're running out of VRAM\n",
             __func__, params.model.path.c_str());

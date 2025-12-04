@@ -1,6 +1,31 @@
 #include "models.h"
-
+#include <iostream>
 llm_build_llama::llm_build_llama(const llama_model & model, const llm_graph_params & params) : llm_graph_context(params) {
+
+    // std::cout << "DEBUG: Building LLaMA graph..." << std::endl;
+    // // for debug, print the  llm_graph_context(params)
+    // std::cout << "Graph Context Parameters:" << std::endl;
+    // std::cout << "  n_embd: " << n_embd << std::endl;
+    // std::cout << "  n_layer: " << n_layer << std::endl;
+    // std::cout << "  n_ctx: " << n_ctx << std::endl;
+    // std::cout << "  n_head: " << n_head << std::endl;
+    // std::cout << "  n_head_kv: " << n_head_kv << std::endl;
+    // std::cout << "  n_embd_head_k: " << n_embd_head_k << std::endl;
+    // std::cout << "  n_embd_head_v: " << n_embd_head_v << std::endl;
+    // std::cout << "  n_tokens: " << n_tokens << std::endl;
+    // std::cout << "  n_outputs: " << n_outputs << std::endl;
+    // std::cout << "  n_expert: " << n_expert << std::endl;
+    // std::cout << "  n_expert_used: " << n_expert_used << std::endl;
+    // std::cout << "  freq_base: " << freq_base << std::endl;
+    // std::cout << "  freq_scale: " << freq_scale << std::endl;
+    // std::cout << "  rope_type: " << rope_type << std::endl;
+    // std::cout << "Ubatch Info:" << std::endl;
+    // std::cout << "  n_seq_tokens: " << ubatch.n_seq_tokens << std::endl;
+    // std::cout << "  n_seqs: " << ubatch.n_seqs << std::endl;
+    // std::cout << "  n_seqs_unq: " << ubatch.n_seqs_unq << std::endl;
+    // std::cout << "  equal_seqs: " << (ubatch.equal_seqs() ? "true" : "false") << std::endl;
+    // std::cout << "Callback: " << (cb_func ? "registered" : "null") << std::endl;
+    
     const int64_t n_embd_head = hparams.n_embd_head_v;
 
     GGML_ASSERT(n_embd_head == hparams.n_embd_head_k);

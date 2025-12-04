@@ -911,6 +911,8 @@ static void ggml_backend_sched_set_if_supported(ggml_backend_sched_t sched, stru
     if (ggml_backend_supports_op(sched->backends[cur_backend_id], node)) {
         *node_backend_id = cur_backend_id;
         SET_CAUSE(node, "2.sup");
+        //printf("Pass 2/4: Assigned node %s (%s) to backend %s\n", node->name, ggml_op_name(node->op), ggml_backend_name(sched->backends[cur_backend_id]));
+    
     }
 }
 
@@ -941,6 +943,9 @@ void ggml_backend_sched_split_graph(ggml_backend_sched_t sched, struct ggml_cgra
         // do not overwrite user assignments
         if (*leaf_backend_id == -1) {
             *leaf_backend_id = ggml_backend_sched_backend_id_from_cur(sched, leaf);
+            // if (*leaf_backend_id != -1) {
+            //     printf("Pass 1: Assigned leaf %s to backend %s\n", leaf->name, ggml_backend_name(sched->backends[*leaf_backend_id]));
+            // }
         }
     }
 
@@ -950,6 +955,9 @@ void ggml_backend_sched_split_graph(ggml_backend_sched_t sched, struct ggml_cgra
         // do not overwrite user assignments
         if (*node_backend_id == -1) {
             *node_backend_id = ggml_backend_sched_backend_id_from_cur(sched, node);
+            // if (*node_backend_id != -1) {
+            //     printf("Pass 1: Assigned node %s (%s) to backend %s\n", node->name, ggml_op_name(node->op), ggml_backend_name(sched->backends[*node_backend_id]));
+            // }
 
 #if 0
             // src
@@ -1084,6 +1092,7 @@ void ggml_backend_sched_split_graph(ggml_backend_sched_t sched, struct ggml_cgra
                         n_supported_best = n_supported;
                         *node_backend_id = b;
                         SET_CAUSE(node, "3.best");
+                        //printf("Pass 3: Assigned node %s (%s) to backend %s (best fit)\n", node->name, ggml_op_name(node->op), ggml_backend_name(sched->backends[b]));
                     }
                 }
             }
@@ -1105,6 +1114,7 @@ void ggml_backend_sched_split_graph(ggml_backend_sched_t sched, struct ggml_cgra
                     if (supported) {
                         *node_backend_id = b;
                         SET_CAUSE(node, "3.upg");
+                        //printf("Pass 3: Upgraded node %s (%s) to backend %s\n", node->name, ggml_op_name(node->op), ggml_backend_name(sched->backends[b]));
                         break;
                     }
                 }

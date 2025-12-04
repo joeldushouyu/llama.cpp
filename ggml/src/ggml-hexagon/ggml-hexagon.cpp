@@ -261,7 +261,8 @@ static inline void hex_print_op_info(const ggml_tensor * op, ggml_hexagon_sessio
 void ggml_hexagon_session::enqueue(struct htp_general_req &req, struct dspqueue_buffer *bufs, uint32_t n_bufs, bool sync) {
     // Bump pending flag (cleared in the session::flush once we get the responce)
     this->op_pending++;  // atomic inc
-
+    GGML_LOG_INFO("ggml-hex: %s enqueue op %s, pending ops %d\n to dev id %d session id %d \n", this->name.c_str(),
+                   ggml_op_name((enum ggml_op) req.op), (int) this->op_pending.load(), this->dev_id, this->session_id);
     int err = dspqueue_write(this->queue,
                              0,                       // flags - the framework will autoset this
                              n_bufs,                  // number of buffers
@@ -1843,6 +1844,7 @@ ggml_hexagon_session::ggml_hexagon_session(int dev_id, ggml_backend_dev_t dev) n
 
     buffer_type.device         = dev;
     repack_buffer_type.device  = dev;
+    GGML_LOG_INFO("ggml-hex: creating hexagon session on device %d\n", dev_id);
 
     try {
         allocate(dev_id);
